@@ -1,8 +1,14 @@
-# Data Structure_Day01_05
-# 선형 리스트 ==>  + 선택한 데이터 이후의 데이터 모두 지우기 v02
+# Data Structure_Day01_06
+# 선형 리스트 ==>  통합
 
 
 def insert_data(idx, pokemon):
+    '''
+    리스트의 특정 위치에 요소 삽입
+    :param idx: 삽입할 위치, int
+    :param pokemon: 삽입할 값, string
+    :return: void
+    '''
     if idx < 0 or idx > len(pokemons):
         print("데이터를 삽입할 범위를 벗어났습니다.")
         return
@@ -18,6 +24,11 @@ def insert_data(idx, pokemon):
 
 
 def delete_data(idx):
+    '''
+    리스트의 특정 위치에 있는 값 삭제
+    :param idx: int
+    :return: void
+    '''
     if idx < 0 or idx > len(pokemons):
         print("Out of range!!!")
         return
@@ -33,6 +44,11 @@ def delete_data(idx):
 
 
 def Sdelete_data(idx):
+    '''
+    리스트의 특정 위치 이후에 있는 값 모두 삭제
+    :param idx: int
+    :return: void
+    '''
     if idx < 0 or idx > len(pokemons):
         print("Out of range!!!")
         return
@@ -50,6 +66,11 @@ def Sdelete_data(idx):
 
 
 def Sdelete_data_v02(idx):
+    '''
+    리스트의 특정 위치 이후에 있는 값 모두 삭제 다른 버전
+    :param idx: int
+    :return: void
+    '''
     if idx < 0 or idx > len(pokemons):
         print("Out of range!!!")
         return
@@ -61,23 +82,41 @@ def Sdelete_data_v02(idx):
         pokemons.pop()
 
 
+def add_data(pokemon):
+    '''
+    리스트 맨뒤에 요소 추가
+    :param pokemon: 입력할 데이터
+    :return:
+    '''
+    pokemons.append(None)
+    pokemons[len(pokemons)-1] = pokemon
+
+
+pokemons = ["피카츄", "푸린", "파이리", "꼬부기", "롱스톤"]  #  기본 리스트 선언
+menu = -1
 if __name__ == "__main__":  # 해당 구문 밑에 있는 코드가 main처럼 동작
-    pokemons = ["피카츄", "푸린", "파이리", "꼬부기", "롱스톤"]  # main에서 기본 리스트 선언
 
-    # data insert
-    insert_data(2, '디아루가')
-    print(pokemons)
-    insert_data(6, '펄기아')
-    print(pokemons)
+     while menu != 4:
 
-    # data delete
-    delete_data(1)
-    print(pokemons)
-    delete_data(3)
-    print(pokemons)
+        menu = input("선택하세요(1: 추가, 2: 삽입, 3: 삭제, 4: 종료)--> ")
 
-    # 선택한 인덱스
-    Sdelete_data(1)
-    print(pokemons)
-    Sdelete_data(3)
-    print(pokemons)
+        if (menu == '1'):
+            data = input("추가할 데이터--> ")
+            add_data(data)
+            print(pokemons)
+        elif (menu == '2'):
+            pos = int(input("삽입할 위치--> "))
+            data = input("추가할 데이터--> ")
+            insert_data(pos, data)
+            print(pokemons)
+        elif (menu == '3'):
+            pos = int(input("삭제할 위치--> "))
+            delete_data(pos)
+            print(pokemons)
+        elif (menu == '4'):
+            print(pokemons)
+            #exit()  # 강제 중지
+            break;
+        else:
+            print("1~4 중 하나를 입력하세요.")
+            continue
