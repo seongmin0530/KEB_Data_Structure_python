@@ -1,43 +1,32 @@
-# Data Structure_Day01_08
-# 선형 리스트 ==>  특수 다항식 처리 프로그램
-
-# 차수가 매우 큰 다항식을 처리할 때 for문을 이용해 작성하면
-# 리스트 공간 낭비가 심하므로 새로운 리스트를 만들어 계수가 있는 차수 정보를 저장
+# Data Structure_Day01_09
+# 선형 리스트 ==>  카톡친구 자동 삽입하기
+talk = [('꼬부기',250),('피카츄',160),('롱스톤',50),('푸린',20),('이상해씨',10)]
 
 
-def print_poly(tx, px):
-    poly_str = "P(x) = "
+def insert_data(idx, item):
+    if idx < 0 or idx > len(talk):
+        print("데이터를 삽입할 범위를 벗어났습니다.")
+        return
 
-    for i in range(len(px)):
-        term = tx[i]  # 항 차수
-        coef = px[i]  # 계수
+    talk.append(None)  # 빈칸 추가
+    # pLen = len(pokemons)  # 배열의 현재 크기
 
-        if (coef >= 0):
-            poly_str += "+"
-        poly_str += f'{coef}x^{term}'
-
-    return poly_str
-
-
-def calc_poly(xVal, tx, px):
-    ret_value = 0
-
-    for i in range(len(px)):
-        term = tx[i]
-        coef = px[i]
-        ret_value += coef * x_value ** term
-
-    return ret_value
+    for i in range(len(talk) - 1, idx, -1):
+        talk[i] = talk[i - 1]
+        talk[i - 1] = None
+    talk[idx] = item
 
 
-px = [7, -4, 5]
-tx = [300, 20, 0]
+def insert_item(name, count):
+    for i in range(len(talk)):
+        if talk[i][1] < count:
+            insert_data(i,(name,count))
+            break
 
 
 if __name__ == "__main__":
-    print(print_poly(tx, px))
-
-    x_value = int(input("X 값을 입력하세요.: "))
-
-    print(calc_poly(x_value, tx, px))
+    name = input("이름을 입력하세요.: ")
+    count = int(input("횟수를 입력하세요. :"))
+    insert_item(name,count)
+    print(talk)
 
