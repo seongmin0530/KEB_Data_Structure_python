@@ -1,5 +1,5 @@
-# Data Structure_Day01_03
-# 선형 리스트 ==>  + 자료 삭제 구현(del)
+# Data Structure_Day01_04
+# 선형 리스트 ==>  + 선택한 데이터 이후의 데이터 모두 지우기
 
 
 def insert_data(idx, pokemon):
@@ -29,7 +29,24 @@ def delete_data(idx):
         pokemons[i - 1] = pokemons[i]
         pokemons[i] = None  # 배열의 맨 마지막 위치 삭제
 
-    del (pokemons[len_pokemons - 1])
+    pokemons.pop()  # == del (pokemons[len_pokemons - 1])
+
+
+def Sdelete_data(idx):
+    if idx < 0 or idx > len(pokemons):
+        print("Out of range!!!")
+        return
+
+    len_pokemons = len(pokemons)
+    count = 0
+
+    for i in range(idx, len_pokemons):
+        # del(pokemons[i])
+        pokemons[i] = None  # 데이터 삭제
+        count += 1
+
+    for j in range(count):
+        pokemons.pop()
 
 
 if __name__ == "__main__":  # 해당 구문 밑에 있는 코드가 main처럼 동작
@@ -45,4 +62,10 @@ if __name__ == "__main__":  # 해당 구문 밑에 있는 코드가 main처럼 �
     delete_data(1)
     print(pokemons)
     delete_data(3)
+    print(pokemons)
+
+    # 선택한 인덱스
+    Sdelete_data(1)
+    print(pokemons)
+    Sdelete_data(3)
     print(pokemons)
