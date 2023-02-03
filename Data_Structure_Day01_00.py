@@ -1,5 +1,5 @@
-# Data Structure_Day01_04
-# 선형 리스트 ==>  + 선택한 데이터 이후의 데이터 모두 지우기
+# Data Structure_Day01_05
+# 선형 리스트 ==>  + 선택한 데이터 이후의 데이터 모두 지우기 v02
 
 
 def insert_data(idx, pokemon):
@@ -46,6 +46,18 @@ def Sdelete_data(idx):
         count += 1
 
     for j in range(count):
+        pokemons.pop()
+
+
+def Sdelete_data_v02(idx):
+    if idx < 0 or idx > len(pokemons):
+        print("Out of range!!!")
+        return
+
+    len_pokemons = len(pokemons)
+    count = 0
+
+    for i in range(len_pokemons - idx):
         pokemons.pop()
 
 
