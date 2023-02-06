@@ -138,13 +138,50 @@ def makeSquareNumber(odd, even):
         current = current.link                 # current 한칸 이동
 
 
+def count_plus_minus():
+    """
+    음수, 양수, 0 count하는 함수
+    :return: 음수, 양수, 0 (int)
+    """
+    global head, current
+
+    plus, minus, zero = 0, 0, 0         # 음수 양수 0 count 위한 변수
+
+    current = head                      # current 생성
+    while True:                         # 무한 반복
+        if current.data > 0:                # current.data가 양수라면
+            plus = plus + 1                 # 양수 ++
+        elif current.data < 0:              # current.data가 음수라면
+            minus = minus + 1               # 음수 ++
+        else:                               # 둘다 아닐 때
+            zero = zero + 1                 # 0 ++
+        if current.link == head:            # Linked list를 모두 확인했다면
+            break                           # 반복문 탈출
+        current = current.link              # current 한칸 이동
+
+    return plus, minus, zero                # 음수, 양수, 0 반환
+
+
+def makeSignToggle():
+    """
+    Linked list의 data값의 부호를 변환하는 함수
+    :return: void
+    """
+    current = head                          # current 생성
+    while True:                             # 무한반복
+        current.data = current.data * -1    # current.data의 부호 변환(음->양 or 양->음)
+        if current.link == head:            # 만약 linked list전부를 확인했다면
+            break                           # 반복문 탈출
+        current = current.link              # current 한칸 이동
+
+
 head, current, pre = None, None, None
 data_array = list()
 
 if __name__ == "__main__":
     # odd_even = count_odd_even()  # False 리턴
     for _ in range(7):
-        data_array.append(random.randint(1, 10))
+        data_array.append(random.randint(-10, 10))
 
     node = Node(data_array[0])
     head = node
@@ -156,7 +193,11 @@ if __name__ == "__main__":
         node.link = head
 
     print_nodes(head)
-    odd_even = count_odd_even()
-    print(f'Odd Number : {odd_even[0]}, Even Number {odd_even[1]}')
-    makeSquareNumber(odd_even[0], odd_even[1])
+    # odd_even = count_odd_even()
+    # print(f'Odd Number : {odd_even[0]}, Even Number {odd_even[1]}')
+    # makeSquareNumber(odd_even[0], odd_even[1])
+    plus_minus_zero = count_plus_minus()                                                        # 음수, 양수, 0 개수 저장
+    print(f'+ : {plus_minus_zero[0]}, - : {plus_minus_zero[1]}, 0 : {plus_minus_zero[2]}')
+    # makeSquareNumber(odd_even[0], odd_even[1])
+    makeSignToggle()                                                                            # 음수,양수 부호변환 함수 호출
     print_nodes(head)
