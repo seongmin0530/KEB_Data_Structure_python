@@ -1,7 +1,5 @@
 # Day02_Mission03
-#마라톤 반환점 돌아오기
-
-import random
+#거꾸로 말해요
 
 
 def is_stack_full():
@@ -46,26 +44,38 @@ def peek():
     print(stack[top])
 
 
-SIZE = 10
+SIZE = 50
 stack = [None for i in range(SIZE)]
 top = -1
 
 if __name__ == "__main__" :
-    spot_array = ["주안역", "학산소극장", "인하대 후문", "인하대 정문", "숭의역", "인하대 송도 캠퍼스"]
-    random.shuffle(spot_array)
-    count = 0
-    print("반환점 가는길 :", end=" ")
-    for spot in spot_array:
-        push(spot)
-        count += 1
-        print(f'{spot} -->',end=" ")
-    print("반환점")
 
-    print("시작점 가는길 :", end=" ")
-    while True:
-        spot = pop()
-        if spot:
-            print(f'{spot} -->', end=" ")
-        else:
-            break
-    print("시작점")
+    with open("거꾸로.txt","r", encoding='UTF8') as file:
+        text = file.readlines()
+        count = 0
+        print("기존 단어 => ")
+        for word in text:
+            push(word)
+            print(word,end = " ")
+
+        print("\n거꾸로 => ")
+        while True:
+            word = pop()
+            if word == None:
+                break
+
+            mstack = [None for i in range(len(word))]
+            mtop = -1
+
+            for c in word:
+                mtop +=-1
+                mstack[mtop] = c
+
+            while True:
+                if mtop == -1:
+                    break
+                c = mstack[mtop]
+                mtop -= 1
+                print(c, end = " ")
+
+                #fail
