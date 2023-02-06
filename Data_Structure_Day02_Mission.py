@@ -1,93 +1,51 @@
-import random
-import math
-
 class Node():
     def __init__(self, data):
         self.data = data
-        self. link = None
+        self.plink = None   # 정방향 링크
+        self.nlink = None   # 역방향 링크
 
 
 def print_nodes(start):
-    """
-    node를 출력하는 함수 (단순 Linken List와 동일)
-    :param start: 출력의 시작노드 data(String)
-    :return: void
-    """
     current = start
-    if current.link == None :
-        return
+    print("정방향 ==>", end=" ")           # 정방향 출력
+    print(current.data, end=" ")          # 첫번째 노드 출력
+    while current.plink != None:          # 정방향 링크가 None이 아닐 때 까지
+        current = current.plink           # current 한칸 이동 후 출력
+        print(current.data, end=" ")
 
-    x = math.sqrt(current.data[1]*current.data[1] + current.data[2]*current.data[2])
-    print(f'{current.data[0]}건물, 거리 = {x}')
-    while current.link != start:
-        current = current.link
-        x = math.sqrt(current.data[1] * current.data[1] + current.data[2] * current.data[2])
-        print(f'{current.data[0]}건물, 거리 = {x}')
-    print()
+    print("\n역방향 ==>", end=" ")         # 역방향 출력
+    while current.nlink != None:          # 역방향 링크가 None이 아닐 때 까지
+        print(current.data, end=" ")      # 노드 출력 후 current 한칸 이동
+        current = current.nlink
+    print(current.data, end=" ")          # 출력 후 한칸 이동하여 역방향 마지막 노드가 출력되지 않았으므로 따로 출력
 
-
-def make_point():
-    """
-    랜덤 좌표를 가지는 배열 만드는 함수
-    :return: List
-    """
-    global data_array
-    building_name = 'A'
-    for i in range(10):
-        data_array.append((building_name, random.randint(1,100),random.randint(1,100)))
-        building_name = chr(ord(building_name)+1)
-
-def make_liked_list(building):
-    """
-    거리가 작은 순서대로 circular Linked list 생성하는 함수
-    :param building: 건물의 이름, 좌표(tuple)
-    :return: void
-    """
-    global pre, current, head, memory
-    node = Node(building)
-    memory.append(node)
-
-    if head == None:        # 첫번째 노드 생성
-        head = node
-        node.link = head
-        return
-
-    nx, ny = node.data[1:]
-    ndistance = math.sqrt((nx*nx)+(ny*ny))  # 새노드까지의 거리
-    hx, hy = head.data[1:]
-    hdistance = math.sqrt((hx * hx) + (hy * hy)) # head가 가리키는 노드까지의 거리
-
-
-    if hdistance > ndistance:
-        node.link = head
-        last = head
-        while last.link != head:
-            last = last.link
-        last.link = node
-        head = node
-        return
-
-    current = head
-    while current.link != head:
-        pre = current
-        current = current.link
-        cx, cy = current.data[1:]
-        cdistance = math.sqrt((cx * cx) + (cy * cy))  # current가 가리키는 노드까지의 거리
-        if cdistance > ndistance:
-            pre.link = node
-            node.link = current
-            return
-
-    current.link = node
-    node.link = head
-
-
-
-memory = []
+    # 동일 기능(print_nodes(start))
+    # ***********************************************
+    # def print_nodes(start):
+        # current = start
+        # if current.plink == None:
+        #     return
+        # print("정방향 ==>", end=" ")
+        # print(current.data, end=" ")
+        # while current.plink != None:
+        #     current = current.plink
+        #     print(current.data, end=" ")
+        # print("\n역방향 ==>", end=" ")
+        # print(current.data, end=" ")
+        # while current.nlink != None:
+        #     current = current.nlink
+        #     print(current.data, end=" ")
+    # ***********************************************
 pre, current, head = None, None, None
-data_array = []
+data_array = ["카게야마", "히나타", "츠키시마", "타나카", "다이치"]
+
 if __name__ == "__main__" :
-    make_point()  # data_array 생성
-    for data in data_array:
-        make_liked_list(data)
+    node = Node(data_array[0])
+    head = node
+    for data in data_array[1:]:
+        pre = node
+        node = Node(data)
+        pre.plink = node        # 기존 노드의 정방향 링크를 새 노드와 연결
+        node.nlink = pre        # 새 노드의 역방향 링크를 기존 노드와 연결
+
     print_nodes(head)
