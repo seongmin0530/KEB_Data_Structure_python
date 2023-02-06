@@ -1,93 +1,82 @@
 # KEB Data Structure Day02
-# Linked List_원형 연결 리스트 - insert, delete, find
+# Linked List_원형 연결 리스트 - count_odd_even
 
-class Node():
+import random
+
+
+class Node:
     def __init__(self, data):
         self.data = data
-        self. link = None
+        self.link = None
 
 
 def print_nodes(start):
-    """
-    node를 출력하는 함수 (단순 Linken List와 동일)
-    :param start: 출력의 시작노드 data(String)
-    :return: void
-    """
     current = start
-    if current.link == None :
+    if current == None :
         return
-
-    print(current.data, end=" ")
-    while current.link != start:
+    print(current.data, end=' ')
+    while current.link != start:  #
         current = current.link
-        print(current.data, end=" ")
+        print(current.data, end=' ')
     print()
 
 
-def insert_node(find_data, insert_data):
-    global head, memory, pre, current  # 전역변수 사용
-    if head.data == find_data:              # 첫번째 노드에 삽입할 경우
-        node = Node(insert_data)                # 새로운 노드 생성
-        node.link = head                        # 새로운 노드는 head를 가리킴
-        last = head                             # 원형 List의 끝을 판별할 last 생성(head와 동일한 위치)
-        while last.link != head :               # last가 head를 가리키기 전까지(리스트의 끝까지) 반복
-            last = last.link                        # last를 이동
-        last.link = node                        # (현재 last는 마지막 노드를 가리키고 있음) ==> last가 새로운 노드를 가리키게 함
+def insert_nodes(find_data, insert_data):
+    global head, current, pre
+    if head.data == find_data:
+        node = Node(insert_data)
+        node.link = head
+        last = head
+        while last.link != head:
+            last = last.link
+        last.link = node
+        head = node
         return
-                                            # Linked List 중간에 삽입할 경우
-    current = head                              # current 생성(head와 동일한 위치)
-    while current.link != head:                 # current가 head를 가리키기 전까지(리스트의 끝까지) 반복
-        pre = current                                   # pre 생성 (current와 동일)
-        current = current.link                          # current가 다음 노드를 가리키도록 함
-        if current.data == find_data:                   # 만약 current가 가리키는 노드가 원하는 위치의 노드라면
-            node = Node(insert_data)                        # 새로운 노드 객체 생성
-            node.link = current                             # 새로운 노드는 current(원하는 위치의 노드)를 가리킴
-            pre.link = node                                 # pre가 가리키는 노드는 node를 가리킴
+    current = head
+    while current.link != head:
+        pre = current
+        current = current.link
+        if current.data == find_data:
+            node = Node(insert_data)
+            node.link = current
+            pre.link = node
             return
-                                            # Linked List 마지막에 삽입할 경우
-    node = Node(insert_data)                    # 새로운 노드 객체 생성
-    current.link = node                         # current는 새로운 노드를 가리킴
-    node.link = head                            # 새로운 노드는 head가 가리키는 노드를 가리킴
+    node = Node(insert_data)
+    current.link = node
+    node.link = head
 
 
-def delete_node(delete_data):
-    global memory, pre, current, head   # 전역변수 사용
-    if head == delete_data:                 # 삭제하고자 하는 data가 head에 있을 경우
-        current = head                              # current 생성 (head과 동일)
-        head = head.link                            # head 한칸 이동
-        last = head                                 # last 생성(head와 동일)
-        while last.link != current:                 # last가 첫 노드(current)를 가리키지 않는 동안 반복
-            last = last.link                            # last 한칸씩 이동
-        last.link = head                            # last가 가리키는 노드(마지막 노드)가 head를 가리키게 함
-        del (current)                               # current(delete할 노드) 삭제
+def delete_nodes(delete_data):
+    global head, current, pre
+    if head.data == delete_data:
+        current = head
+        head = head.link
+        last = head  #
+        while last.link != current:  #
+            last = last.link  #
+        last.link = head  #
+        del current
         return
-                                            # 삭제하고자 하는 data가 첫번째 이외의 노드에 있을 경우
-    current = head                                  # current 생성 (head와 동일)
-    while current.link != head:                     # current가 head(첫번째 노드)를 가리키지 않는 동안 반복
-        pre = current                                   # pre 생성(current와 동일)
-        current = current.link                          # current 한칸 이동
-        if current.data == delete_data:                 # 만약 current data가 delete data와 같을 경우
-            pre.link = current.link                         # pre노드를 current 다음 노드와 연결
-            del(current)                                    # current 노드 삭제
+    current = head
+    while current.link != head:
+        pre = current
+        current = current.link
+        if current.data == delete_data:
+            pre.link = current.link
+            del current
             return
 
 
-def find_node(find_data):
-    """
-    원형 Linked List에서 원하는 data를 가진 노드가 있는지 확인하는 함수
-    :param find_data: 원하는 data(String)
-    :return: (Node)
-    """
-    global memory, pre, head, current   #전역변수 사용
-    current = head          # current 생성
-
-    if current.data == find_data:           # 첫번째 노드가 찾는 노드일 경우
-        return current                          # current 반환
-    while current.link != head :            # current 가 가리키는 노드가 head(첫번쨰 노드)가 아닐경우 == 찾는 노드가 뒤에 있을 경우
-        current = current.link                  # current 노드 한칸 이동
-        if current.data == find_data:           # 만약 current가 카리키는 노드가 찾는 노드일 경우
-            return current                          # current 반환
-    return Node(None)                       # 찾는 노드가 Linkend List에 없는 경우 ==> 빈 노드 반환
+def find_nodes(find_data):
+    global head, current, pre
+    current = head
+    if current.data == find_data:
+        return current
+    while current.link != head:  #
+        current = current.link
+        if current.data == find_data:
+            return current
+    return Node(None)
 
 
 def is_find(find_data):
@@ -96,68 +85,78 @@ def is_find(find_data):
     :param find_data: 찾고자 하는 원소. str
     :return: 연결 리스트안에서 원소가 존재하면 True리턴 아니면 False
     """
+    global head, current, pre
+    current = head
+    if current.data == find_data:
+        return True
+    while current.link != head:  #
+        current = current.link
+        if current.data == find_data:
+            return True
 
-    global head, current, pre   #전역변수 사용
+    return False
 
-    current = head                  # current 생성
-    if current.data == find_data:       # current(head)가 찾을 데이터와 같다면
-        return True                         # True 반환
 
-    while current.link != head:         # current(중간)에 찾을 데이터가 있을 때
-        current = current.link              # current 한칸 이동
-        if current.data == find_data:       # current(중간 노드)가 찾을 데이터와 같다면
-            return True                         # True 반환
+def count_odd_even():
+    """
+    입력된 데이터에서 홀수/짝수 개수 구하는 함수
+    :return: 홀수/짝수 개수(int)
+    """
+    global head, current
 
-    return False                        # Linked list안에 찾는 data가 없을 때 False 출력
+    even, odd = 0, 0
 
-memory = []
-current, pre, head = None, None, None
-data_array = ["히나타", "카게야마", "다이치", "니시노야"]
+    # SRP 위배
+    # if head == None:
+    #     return False
 
+    current = head          # current 생성
+    while True:             # 무한 반복
+        if current.data % 2 == 0:   # current.data가 짝수라면
+            even = even + 1         # even ++
+        else:                       # current.data가 홀수라면
+            odd = odd + 1           # odd ++
+        if current.link == head:    # 만약 Linked list를 끝까지 다 탐색했다면
+            break                   # while문 탈출
+        current = current.link      # current 한칸 이동
+
+    return odd, even                # even, odd 반환
+
+
+def makeSquareNumber(odd, even):
+    if odd > even:
+        remainder = 1
+    else:
+        remainder = 0
+
+    current = head          #current 생성
+    while True:             #무한 반복
+        if current.data % 2 == remainder:      # 홀수>짝수, current.data : 홀수 또는 홀수 < 짝수, current.data : 짝수일 때
+            current.data = current.data * current.data  # current.data 제곱해서 저장
+        if current.link == head:               # Linked list의 끝까지 탐색했다면
+            break                              # 반복문 탈출
+        current = current.link                 # current 한칸 이동
+
+
+head, current, pre = None, None, None
+data_array = list()
 
 if __name__ == "__main__":
-    # circular Linked List 생성
-    ############################################################################
+    # odd_even = count_odd_even()  # False 리턴
+    for _ in range(7):
+        data_array.append(random.randint(1, 10))
+
     node = Node(data_array[0])
     head = node
-    node.link = node
-    memory.append(node)
-
-    for data in data_array[1:] :
+    node.link = head
+    for data in data_array[1:]:
         pre = node
         node = Node(data)
         pre.link = node
         node.link = head
-        memory.append(node)
 
     print_nodes(head)
-    #############################################################################
-
-    # insert 확인 구문
-    #############################################################################
-    insert_node("카게야마", "나리타")  # 카게야마 앞에 나리타 삽입
+    odd_even = count_odd_even()
+    print(f'Odd Number : {odd_even[0]}, Even Number {odd_even[1]}')
+    makeSquareNumber(odd_even[0], odd_even[1])
     print_nodes(head)
-    insert_node("다이치","야마구치")   # 다이치 앞에 야마구치 삽입
-    print_nodes(head)
-    #############################################################################
-
-    #delete 확인 구문
-    #############################################################################
-    delete_node("야마구치")
-    print_nodes(head)
-    delete_node("나리타")
-    print_nodes(head)
-    #############################################################################
-
-    #find 확인 구문
-    #############################################################################
-    print()
-    print(find_node("히나타").data)
-    print(find_node("츠키시마").data)
-    #############################################################################
-
-    #is_find 확인구문
-    #############################################################################
-    print(is_find("히나타"))
-    print(is_find("츠키시마"))
-    #############################################################################
