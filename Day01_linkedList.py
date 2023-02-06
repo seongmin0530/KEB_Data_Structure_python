@@ -90,7 +90,25 @@ def find_node(find_data):
     return Node(None)                       # 찾는 노드가 Linkend List에 없는 경우 ==> 빈 노드 반환
 
 
+def is_find(find_data):
+    """
+    연결 리스트안에서 원소 존재 여부 판정 함수
+    :param find_data: 찾고자 하는 원소. str
+    :return: 연결 리스트안에서 원소가 존재하면 True리턴 아니면 False
+    """
 
+    global head, current, pre   #전역변수 사용
+
+    current = head                  # current 생성
+    if current.data == find_data:       # current(head)가 찾을 데이터와 같다면
+        return True                         # True 반환
+
+    while current.link != head:         # current(중간)에 찾을 데이터가 있을 때
+        current = current.link              # current 한칸 이동
+        if current.data == find_data:       # current(중간 노드)가 찾을 데이터와 같다면
+            return True                         # True 반환
+
+    return False                        # Linked list안에 찾는 data가 없을 때 False 출력
 
 memory = []
 current, pre, head = None, None, None
@@ -136,4 +154,10 @@ if __name__ == "__main__":
     print()
     print(find_node("히나타").data)
     print(find_node("츠키시마").data)
+    #############################################################################
+
+    #is_find 확인구문
+    #############################################################################
+    print(is_find("히나타"))
+    print(is_find("츠키시마"))
     #############################################################################
