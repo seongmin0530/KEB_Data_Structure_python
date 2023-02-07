@@ -1,22 +1,16 @@
 # Day03_Mission01
-# 놀이공원 퍼레이드 순서 use queue
+# 방방 대기시간 use circular queue
 def is_queue_full():
     """
     queue의 상태를 확인하는 함수(가득 찼을 때 True 반환)
     :return: True/False
     """
     global SIZE, queue, front, rear
-    if rear != SIZE -1 :                        # rear의 위치가 queue의 끝 인덱스가 아니라면 queue가 꽉 찬 것이 아님
-        return False                                # False 반환
-    elif rear == SIZE-1 and front == -1 :        # rear의 위치가 queue의 끝 인덱스이고 front가 -1이라면 queue가 꽉 찬 것임
-        return True                                 # True 반환
-    else :                                      # rear의 위치는 queue의 끝이지만 front가 -1이 아닐 때 (queue가 꽉 찬 척 할 때)
-        for i in range(front+1, SIZE):          # queue에 있는 자료들 한칸씩 이동
-            queue[i-1] = queue[i]
-            queue[i] = None
-        front -= 1                              # queue가 이동했으니 front와 rear도 1칸씩 줄임
-        rear -= 1
-        return False                            # queue가 안찼으니 False 반환
+    if (rear+1)%SIZE == front   :                  # rear의 위치가 queue의 끝 인덱스가 아니라면 queue가 꽉 찬 것이 아님
+        return True                               # False 반환
+    else :
+        return False
+
 
 
 def is_queue_empty():
@@ -41,7 +35,7 @@ def en_queue(data):
     if(is_queue_full()):
         print("queue가 꽉 찼습니다.")
         return True
-    rear += 1
+    rear = (rear+1) % SIZE
     queue[rear] = data
 
 
@@ -54,14 +48,9 @@ def de_queue():
     if is_queue_empty() :
         # print("queue가 텅텅 비어있습니다.")
         return None
-    front += 1
+    front  = (front+1) % SIZE
     data = queue[front]
     queue[front] = None
-    for i in range(front + 1, SIZE):    # delete를 수행한 이후 자료들을 한칸씩 당겨주는 구문
-        queue[i - 1] = queue[i]
-        queue[i] = None
-    front -= 1
-    rear -= 1
     return data
 
 
@@ -76,20 +65,20 @@ def peek() :
     return queue[front + 1]
 
 
-SIZE = 5
+SIZE = 6
 queue = [None for i in range(SIZE)]
-front = -1      # 출구    (초기에 출구는 입구와 같은 위치여야 함)
-rear = -1       # 입구    (-1이어야 처음부터 자료가 들어감)
+front = 0     # 출구    (초기에 출구는 입구와 같은 위치여야 함)
+rear = 0       # 입구    (-1이어야 처음부터 자료가 들어감)
+total_wait = 0;
 
 if __name__ == "__main__" :
-    data_array = ["표범", "코끼리", "마차", "공주", "용"]
-    for data in data_array:
-        en_queue(data)
-    print(f'퍼레이드 진행상태 : {queue}')
+    data_array = [("최고코스",60), ("중간코스",30), ("간편 코스",15), ("예약안내",10), ("간편코스",15)]
 
-    while True:
-        if is_queue_empty():
-            print("퍼레이드 종료")
-            break
-        print(f'{de_queue()} 입장중...\n')
-        print(f'퍼레이드 진행상태 : {queue}')
+    print(f'예상 대기시간은 {total_wait}분 입니다.')
+    print(f'방방 대기손님 내역 : {queue}\n')
+    for data in data_array:
+        total_wait += data[1]
+        en_queue(data)
+        print(f'예상 대기시간은 {total_wait}분 입니다.')
+        print(f'방방 대기손님 내역 : {queue}\n')
+    print("예상 대기시간 보기를 종료합니다.")
