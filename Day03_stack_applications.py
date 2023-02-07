@@ -1,4 +1,14 @@
-import random
+# stack과 webbrowser,time 패키지을 이용하면 web사이트 방문 기록등을 확인할 수 있다.
+# time을 사용하지 않으면 컴퓨터 사양에 따라 순방문 순서가 바뀔 수 도 있다.
+
+import webbrowser
+import time
+
+
+SIZE = 100
+stack = [None for i in range(SIZE)]
+top = -1
+
 
 def is_stack_full():
     global stack, top, SIZE
@@ -42,26 +52,25 @@ def peek():
     print(stack[top])
 
 
-SIZE = 50
-stack = [None for i in range(SIZE)]
-top = -1
+
 
 if __name__ == "__main__" :
-    spot_array = ["주안역", "학산소극장", "인하대 후문", "인하대 정문", "숭의역", "인하대 송도 캠퍼스"]
-    random.shuffle(spot_array)
-    count = 0
-    print("반환점 가는길 :", end=" ")
-    for spot in spot_array:
-        push(spot)
-        count += 1
-        print(f'{spot} -->', end=" ")
-    print("반환점")
+    urls = ["inha.ac.kr", "havard.edu", "yale.edu"]
 
-    print("시작점 가는길 :", end=" ")
+    for url in urls:
+        push(url)
+        webbrowser.open("http://"+url)
+        print(url, end = "-->")
+        time.sleep(1)
+
+    print("방문 종료")
+    time.sleep(5)
+
     while True:
-        spot = pop()
-        if spot:
-            print(f'{spot} -->', end=" ")
-        else:
+        url = pop()
+        if url == None:
             break
-    print("시작점")
+        webbrowser.open("http://"+url)
+        print(url, end = "-->")
+        time.sleep(1)
+    print("방문 종료")
