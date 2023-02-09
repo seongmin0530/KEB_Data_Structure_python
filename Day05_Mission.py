@@ -1,5 +1,5 @@
 # Day05_Mission
-# 퀼정렬 실행시간 확인
+# 큌정렬 실행시간 확인
 
 import random
 import time
@@ -32,13 +32,15 @@ def quick_sort(array):                          # 주어진 배열을 이용해 
     return array
 
 
-amount_data = [10000,50000, 100000, 150000]
+data_array = [random.randint(0,1000000) for _ in range(1000000)]
 
 if __name__ == "__main__":
-
-    for i in amount_data:
-        data_value = [random.randint(0,20000) for _ in range(i)]
-        start = time.time()
-        quick_sort(data_value)
-        end = time.time()
-        print(f'{i}개의 데이터 퀵정렬 종료. 실행시간 : {end-start:.2f}')
+    data_array.sort()
+    position = random.randint(0,len(data_array))
+    data = data_array[-1]
+    data_array.insert(position,data)
+    start = time.time()
+    quick_sort(data_array)
+    end = time.time()
+    print(f'{data} 데이터가 {position}위치에 삽입되었습니다.')
+    print(f'재정렬 완료. 소요시간:{(end-start):.2f}')
