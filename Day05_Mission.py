@@ -1,25 +1,35 @@
-#Day05_Mission
-# 나이별 매칭(가장 나이가 많은 사람과 어린 사람 짝 지어주기)
+# Day05_Mission
+# 교실에 있는 학생중 중간 성적을 가진 학생 찾기
 
-def age_sort(array):
+def sort(array):
     for end in range(len(array)):
         for j in range(end,0,-1):
-            if array[j-1][1]>array[j][1]:
-                array[j-1][1], array[j][1] = array[j][1],array[j-1][1]
+            if array[j-1]>array[j]:
+                array[j-1], array[j] = array[j],array[j-1]
     sorted_array = array
     return array
 
 
-def matching(array):
-    end = -1
-    for i in range(len(array)//2):
-        print(f'{array[i][0]},{array[end][0]}')
-        end -= 1
+def make_array(array):
+    result_array = list()
+    for i in range(len(array)):
+        for j in range(len(array[i])):
+            result_array.append(array[i][j])
+    return result_array
 
 
-people_array = [["영미", 20], ["성민",25], ["철수",5], ["영희",8], ["옥자",70], ["형준",40]]
+def find_middle(array):
+    print(array[len(array)//2])
+
+
+people_array = [[20,35,40,90],
+                [47,62,79,30],
+                [10,43,72,59],
+                [5,26,65,87]]
+
 
 if __name__ == "__main__":
-    sorted_array = age_sort(people_array)
-    print(f'정렬결과 : {sorted_array}')
-    matching(sorted_array)
+
+   sorted_array = sort(make_array(people_array))
+   print(sorted_array)
+   find_middle(sorted_array)
