@@ -1,26 +1,25 @@
 #Day05_Mission
-# 진수 변환기
+# 나이별 매칭(가장 나이가 많은 사람과 어린 사람 짝 지어주기)
+
+def age_sort(array):
+    for end in range(len(array)):
+        for j in range(end,0,-1):
+            if array[j-1][1]>array[j][1]:
+                array[j-1][1], array[j][1] = array[j][1],array[j-1][1]
+    sorted_array = array
+    return array
 
 
-def transform(base, num):
-    global number_chr
-    if num < base:
-        print(number_chr[num],end=" ")
-    else:
-        transform(base, num//base)
-        print(num % base, end=' ')
+def matching(array):
+    end = -1
+    for i in range(len(array)//2):
+        print(f'{array[i][0]},{array[end][0]}')
+        end -= 1
 
 
-def print_answer(base,num):
-    print(f'{base}진수 변환 결과 :', end="")
-    transform(base,num)
-    print()
+people_array = [["영미", 20], ["성민",25], ["철수",5], ["영희",8], ["옥자",70], ["형준",40]]
 
-
-number_chr = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
-
-if __name__ == "__main__" :
-    num = int(input("10진수를 입력하세요.: "))
-    print_answer(16,num)
-    print_answer(8, num)
-    print_answer(2, num)
+if __name__ == "__main__":
+    sorted_array = age_sort(people_array)
+    print(f'정렬결과 : {sorted_array}')
+    matching(sorted_array)
